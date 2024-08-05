@@ -1,25 +1,33 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Home from './components/Home';
-import Navigation from './components/Navigation'; // Import Navigation
-import './index.css';
+import Navigation from './components/Navigation';
+import { AuthProvider } from './components/AuthProvider';
+import ProtectedRoute from './components/ProtectedRoute';
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navigation /> {/* Include Navigation */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <Navigation />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<ProtectedRoute element={Home} />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
+
+
+
 

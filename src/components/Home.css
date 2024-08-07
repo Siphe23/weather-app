@@ -1,4 +1,5 @@
 .home-container {
+<<<<<<< HEAD
   padding: 80px;
   display: flex;
   flex-direction: column;
@@ -103,3 +104,105 @@ button:hover {
   position: relative;
   z-index: 2;
 }
+=======
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .search-form, .save-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+  }
+  
+  button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  .saved-locations, .weather-card, .weekly-forecast {
+    width: 100%;
+  }
+  
+  .saved-locations, .weekly-forecast {
+    margin-top: 20px;
+  }
+  
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background: url('../images/cloudy.jfif') no-repeat center center;
+    background-size: cover; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-content {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .weather-card {
+    background: url('../images/cloudy.jfif') no-repeat center center;
+    background-size: cover; 
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 50%;
+    color: #fff; 
+    position: relative; 
+    overflow: hidden; 
+  }
+  
+  .weather-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1;
+  }
+  
+  .weather-card .card-content {
+    position: relative; 
+    z-index: 2;
+  }
+  
+
+>>>>>>> f4e5be2dfa04a2ef57b06682eaa7116d566f2094

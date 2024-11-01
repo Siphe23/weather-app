@@ -1,7 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../components/Navgation.css';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from './AuthProvider';
 
 const Navigation = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -13,16 +12,12 @@ const Navigation = () => {
     navigate('/login');
   };
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   return (
     <nav>
       <div className="brand">
-        <Link to="/">MyApp</Link>
+        <Link to="/">Weather App</Link>
       </div>
-      <div className={`menu-icon ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+      <div className={`menu-icon ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)}>
         <div></div>
         <div></div>
         <div></div>
@@ -43,4 +38,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-

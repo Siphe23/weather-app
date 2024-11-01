@@ -1,3 +1,4 @@
+/* Base Styles */
 nav {
   display: flex;
   justify-content: space-between;
@@ -14,6 +15,7 @@ nav {
   font-weight: bold;
 }
 
+/* Menu Icon for Mobile */
 .menu-icon {
   display: none;
   cursor: pointer;
@@ -27,6 +29,7 @@ nav {
   transition: all 0.3s;
 }
 
+/* Menu Icon Animation */
 .menu-icon.open div:nth-child(1) {
   transform: rotate(45deg) translate(5px, 6px);
 }
@@ -39,27 +42,26 @@ nav {
   transform: rotate(-45deg) translate(5px, -6px);
 }
 
+/* Navigation Links */
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   gap: 20px;
-
-}
-
-ul.open {
-  display: flex;
+  align-items: center;
+  transition: max-height 0.3s ease-in-out;
 }
 
 ul li {
-  margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 ul li a,
 ul li button {
-  display: inline;
   display: flex;
+  align-items: center;
   color: #fff;
   text-decoration: none;
   font-size: 1em;
@@ -75,11 +77,38 @@ ul li button:hover {
 }
 
 button {
-  
   border-radius: 5px;
   background-color: #555;
+  padding: 5px 10px;
 }
 
 button:hover {
   background-color: #666;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+  
+  ul {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    background-color: #333;
+  }
+
+  ul.open {
+    max-height: 200px; 
+  }
+  
+  ul li {
+    text-align: center;
+    padding: 10px 0;
+  }
 }

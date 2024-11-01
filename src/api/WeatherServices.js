@@ -1,6 +1,8 @@
 import axios from 'axios';
- const API_KEY = '5efd33c0b51ce7127a4894fc8407b559';
+
+const API_KEY = '5efd33c0b51ce7127a4894fc8407b559';
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
+
 const getWeatherByLocation = (lat, lon) => {
   return axios.get(`${BASE_URL}/weather`, {
     params: {
@@ -39,6 +41,7 @@ export default {
   getDailyForecast,
   getWeatherByCity,
 };
+
 
 
 

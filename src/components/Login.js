@@ -1,31 +1,28 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../components/AuthProvider';
-import '../components/Navgation.css' ;
+import { AuthContext } from './AuthProvider';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    // Perform login logic
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser && storedUser.email === email && storedUser.password === password) {
       login(storedUser);
       navigate('/');
     } else {
-      setError('Invalid credentials');
-      navigate('/signup');
+      alert('Invalid credentials');
     }
   };
 
   return (
-    <div className="form-container">
+    <div>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <input
           type="email"

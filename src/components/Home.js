@@ -1,132 +1,104 @@
-import React, { useEffect, useState } from 'react';
-import WeatherServices from '../WeatherServices';
-import '../components/Home.css';
+import React, { useState, useEffect } from 'react';
+import WeatherDetails from '../components/WeatherDetails';
+import WeatherServices from '../api/WeatherServices';
+import useAuth from '../components/useAuth'; // Import the useAuth hook
 
 const Home = () => {
+  const { user } = useAuth(); // Use the useAuth hook
   const [weatherData, setWeatherData] = useState(null);
-  const [weeklyForecast, setWeeklyForecast] = useState(null);
-  const [location, setLocation] = useState({ lat: null, lon: null });
-  const [searchQuery, setSearchQuery] = useState('');
-  const [savedLocations, setSavedLocations] = useState(() => JSON.parse(localStorage.getItem('savedLocations')) || []);
+  const [city, setCity] = useState('');
+  const [savedLocations, setSavedLocations] = useState([]);
+  const [savedWeatherData, setSavedWeatherData] = useState([]); // State for saved weather data
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const fetchWeather = async () => {
+    try {
+      if (city) {
+        const response = await WeatherServices.getWeatherByCity(city);
+        setWeatherData(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+  };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({ lat: position.coords.latitude, lon: position.coords.longitude });
-        },
-        (error) => {
-          console.error('Geolocation error:', error);
-        }
-      );
+    const saved = JSON.parse(localStorage.getItem('savedLocations'));
+    if (saved) {
+      setSavedLocations(saved);
     }
   }, []);
 
   useEffect(() => {
-    if (location.lat && location.lon) {
-      fetchWeather(location.lat, location.lon);
+    fetchWeather();
+  }, [city]); // Re-fetch when city changes
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    fetchWeather();
+  };
+
+  const saveLocation = (location) => {
+    if (!savedLocations.includes(location)) {
+      const updatedLocations = [...savedLocations, location];
+      setSavedLocations(updatedLocations);
+      localStorage.setItem('savedLocations', JSON.stringify(updatedLocations)); // Persist in local storage
     }
-  }, [location]);
-
-  const fetchWeather = (lat, lon) => {
-    WeatherServices.getWeatherByLocation(lat, lon)
-      .then((response) => {
-        setWeatherData(response.data);
-        return WeatherServices.getDailyForecast(lat, lon);
-      })
-      .then((response) => {
-        setWeeklyForecast(response.data.daily);
-      })
-      .catch((error) => console.error('Weather API error:', error));
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    WeatherServices.getWeatherByCity(searchQuery)
-      .then((response) => {
-        const { lat, lon } = response.data.coord;
-        setLocation({ lat, lon });
-        fetchWeather(lat, lon);
-      })
-      .catch((error) => console.error('City search error:', error));
+  const saveWeatherData = () => {
+    if (weatherData && !savedWeatherData.includes(weatherData)) {
+      const updatedWeatherData = [...savedWeatherData, weatherData];
+      setSavedWeatherData(updatedWeatherData);
+      localStorage.setItem('savedWeatherData', JSON.stringify(updatedWeatherData)); // Persist in local storage
+    }
   };
 
-  const handleSaveLocation = (e) => {
-    e.preventDefault();
-    const city = e.target.elements.city.value;
-    WeatherServices.getWeatherByCity(city)
-      .then((response) => {
-        const { lat, lon } = response.data.coord;
-        const newLocation = { city, lat, lon };
-        const updatedLocations = [...savedLocations, newLocation];
-        setSavedLocations(updatedLocations);
-        localStorage.setItem('savedLocations', JSON.stringify(updatedLocations));
-      })
-      .catch((error) => console.error('City save error:', error));
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
   };
 
-  const handleSwitchLocation = (lat, lon) => {
-    setLocation({ lat, lon });
-    fetchWeather(lat, lon);
-  };
+  const appClass = isDarkMode ? 'dark-mode' : 'light-mode';
 
   return (
-    <div className="home-container">
-      <form onSubmit={handleSearch} className="search-form">
+    <div className={appClass}>
+      <button onClick={toggleDarkMode}>
+        Switch to {isDarkMode ? 'Light' : 'Dark'} Mode
+      </button>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for a city"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Search for a city..."
         />
         <button type="submit">Search</button>
+        {weatherData && (
+          <button type="button" onClick={saveWeatherData}>
+            Save Weather
+          </button>
+        )}
       </form>
-      <form onSubmit={handleSaveLocation} className="save-form">
-        <input
-          type="text"
-          name="city"
-          placeholder="Save this location"
-        />
-        <button type="submit">Save Location</button>
-      </form>
-      {savedLocations.length > 0 && (
-        <div className="saved-locations">
-          <h2>Saved Locations</h2>
-          <div className="card-grid">
-            {savedLocations.map((loc, index) => (
-              <div key={index} className="card" onClick={() => handleSwitchLocation(loc.lat, loc.lon)}>
-                <div className="card-content">
-                  <h3>{loc.city}</h3>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {weatherData && (
-        <div className="weather-card">
-          <h1>Weather in {weatherData.name}</h1>
-          <p>Temperature: {weatherData.main.temp} °C</p>
-          <p>Humidity: {weatherData.main.humidity} %</p>
-          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-        </div>
-      )}
-      {weeklyForecast && (
-        <div className="weekly-forecast">
-          <h2>Weekly Forecast</h2>
-          <div className="card-grid">
-            {weeklyForecast.map((day, index) => (
-              <div key={index} className="card">
-                <div className="card-content">
-                  <p>Day {index + 1}</p>
-                  <p>Temperature: {day.temp.day} °C</p>
-                  <p>Weather: {day.weather[0].description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+
+      <h3>Saved Locations</h3>
+      <ul>
+        {savedLocations.map((location, index) => (
+          <li key={index} onClick={() => setCity(location)}>
+            {location}
+          </li>
+        ))}
+      </ul>
+
+      <h3>Saved Weather Data</h3>
+      <ul>
+        {savedWeatherData.map((data, index) => (
+          <li key={index}>
+            {data.city} - {data.temperature}°C {/* Adjust to match your weather data structure */}
+          </li>
+        ))}
+      </ul>
+
+      {weatherData && <WeatherDetails data={weatherData} />}
     </div>
   );
 };

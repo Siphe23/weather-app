@@ -1,38 +1,156 @@
-.App {
-  text-align: center;
+/* Base Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3e5ab;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 10px 20px;
+  background-color: #444; /* Updated background color for consistency */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.brand a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Menu Icon for Mobile */
+.menu-icon {
+  display: none;
+  cursor: pointer;
+}
+
+.menu-icon div {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 5px;
+  transition: all 0.3s;
+}
+
+/* Menu Icon Animation */
+.menu-icon.open div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 6px);
+}
+
+.menu-icon.open div:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-icon.open div:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* Navigation Links */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: max-height 0.3s ease-in-out;
+}
+
+ul li {
+  display: flex;
+  align-items: center;
+}
+
+ul li a,
+ul li button {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, background 0.3s;
+}
+
+ul li a:hover,
+ul li button:hover {
+  color: #ddd;
+}
+
+button {
+  border-radius: 5px;
+  background-color: #555;
+  padding: 5px 10px;
+}
+
+button:hover {
+  background-color: #666;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
   }
-  to {
-    transform: rotate(360deg);
+  
+  ul {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    background-color: #333;
+  }
+
+  ul.open {
+    max-height: 200px; 
+  }
+  
+  ul li {
+    text-align: center;
+    padding: 10px 0;
   }
 }
+
+/* Dark Mode and Light Mode */
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.light-mode {
+  background-color: #f3f3f3;
+  color: #000;
+}
+
+/* Additional Styles */
+button {
+  margin: 10px 0; /* Adds some spacing below buttons */
+}
+
+ul {
+  list-style-type: none; /* Removes bullet points from the list */
+  padding: 0; /* Removes default padding */
+}
+
+li {
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  padding: 5px;
+}
+
+li:hover {
+  background-color: #ddd; /* Adds a hover effect on list items */
+}
+
+/* Form styles */
+form {
+  margin: 20px;
+}
+Updated

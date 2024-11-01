@@ -1,39 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../components/AuthProvider';
-import '../components/Navgation.css' ;
+import { AuthContext } from './AuthProvider';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
-    if (password.length >= 6) {
-      const newUser = { email, password };
-      localStorage.setItem('user', JSON.stringify(newUser));
-      login(newUser);
-      setSuccess('Signup successful! Redirecting to home...');
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
-    } else {
-      setError('Password must be at least 6 characters');
-    }
+    // Perform signup logic, save user details
+    const newUser = { email, password };
+    localStorage.setItem('user', JSON.stringify(newUser));
+    login(newUser);
+    navigate('/');
   };
 
   return (
-    <div className="form-container">
+    <div>
       <h2>Signup</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
       <form onSubmit={handleSignup}>
         <input
           type="email"

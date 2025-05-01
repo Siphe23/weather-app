@@ -14,9 +14,9 @@ const Signup = () => {
     const newUser = { email, password };
     localStorage.setItem('user', JSON.stringify(newUser));
     login(newUser);
-    navigate('/');
+    navigate('/Login');
   };
-
+s
   return (
     <div>
       <h2>Signup</h2>

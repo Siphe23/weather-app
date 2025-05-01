@@ -16,7 +16,7 @@ const Signup = () => {
     login(newUser);
     navigate('/Login');
   };
-s
+
   return (
     <div>
       <h2>Signup</h2>

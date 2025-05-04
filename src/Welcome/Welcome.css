@@ -1,0 +1,66 @@
+.welcome-container {
+  text-align: center;
+  margin-top: 100px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  padding: 40px;
+  border-radius: 15px;
+  background: linear-gradient(
+    135deg,
+    rgba(192, 192, 192, 0.4),
+    rgba(169, 169, 169, 0.3)
+  );
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Animate heading */
+.welcome-container h1 {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  animation: slideDown 1s ease-out;
+}
+
+/* Animate paragraph */
+.welcome-container p {
+  font-size: 1.2rem;
+  color: #555;
+  animation: fadeIn 2s ease-in;
+}
+
+.welcome-image {
+  width: 120px;
+  height: auto;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+.welcome-image:hover {
+  transform: scale(1.1) rotate(3deg);
+  filter: brightness(1.2);
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

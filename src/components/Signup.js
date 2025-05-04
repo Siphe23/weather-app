@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
+import '../App.css';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,6 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    // Perform signup logic, save user details
     const newUser = { email, password };
     localStorage.setItem('user', JSON.stringify(newUser));
     login(newUser);
@@ -18,25 +18,32 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Signup</button>
-      </form>
+    <div className="auth-page">
+      {/* Back arrow outside the auth container */}
+      <Link to="/login" className="back-arrow">
+        ← 
+      </Link>
+
+      <div className="auth-container">
+        <h2>Signup</h2>
+        <form onSubmit={handleSignup}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Signup</button>
+        </form>
+      </div>
     </div>
   );
 };

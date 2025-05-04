@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -19,10 +19,16 @@ const AppContent = () => {
     <>
       {showNavigation && <Navigation />}
       <Routes>
-      <Route path="/welcome" element={<Welcome />} />
+        {/* Set Welcome as the default landing page */}
+        <Route path="/" element={<Welcome />} />
+        
+        {/* Other routes */}
         <Route path="/home" element={<ProtectedRoute component={Home} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        
+        {/* Optional: Redirect to Welcome if route is not found */}
+        <Route path="*" element={<Navigate to="/welcome" replace />} />
       </Routes>
     </>
   );
